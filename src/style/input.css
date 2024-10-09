@@ -1,0 +1,23 @@
+.picker-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.picker {
+  flex-direction: row;
+  outline: 1px rgb(139, 139, 139) solid;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 1rem;
+  background-color: rgb(236, 236, 236);
+  width: 50%;
+}
+
+input {
+  display: none;
+}

@@ -1,9 +1,13 @@
 import Header from './components/Header';
+import Input from './components/Input';
 import './style/App.css';
 
 function App() {
   return (
-    <Header />
+    <div>
+      <Header />
+      <Input />
+    </div>
   );
 }
 
