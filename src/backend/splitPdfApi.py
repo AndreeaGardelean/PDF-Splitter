@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from splitPdf import splitPdf
+import os
 
 app = Flask(__name__)
 cors = CORS(app)
