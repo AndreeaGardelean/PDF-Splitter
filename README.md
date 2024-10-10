@@ -1,72 +1,36 @@
-# PDF-Splitter
+# PDF Splitter
 
-The application *PDF-Splitter* is a simple application designed to allow the user to upload a PDF file and split the file into multiple files, where each new file is a page of the PDF.
+*PDF-Splitter* is a web application designed for a small business I am working with to automate the generation of payslips. Currently, the business generates a single PDF file containing the payslips for all employees. This application allows to upload that single PDF file and split it into separate PDF files, representing each employee's payslip.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
+__Upload Single PDF__: Users can upload a multi-page PDF.
 
-## Available Scripts
+__Automatic Splitting__: The application processes the uploaded PDF to create individual PDF files for each page, representing a single payslip.
 
-In the project directory, you can run:
+__Downloadable ZIP File__: The individual PDF files are zipped and made available for download as a single ZIP file.
 
-### `npm start`
+## Technology Stack
+*Backend*: Flask Framework
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*Frontend*: React Library
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+*PDF Processing*: PyPDF2
 
-### `npm test`
+*File Handling*: BytesIO, zipfile
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How It Works
+*File Upload*: The user uploads a PDF file via the front-end interface (View).
 
-### `npm run build`
+*API Request*: Upon file upload, a POST request is sent to the Flask API containing the PDF file (View -> Controller).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+*PDF Processing*: The API call the processing function to process the PDF file using the PyPDF2 library, creating separate PDF files for each page. These files are stored in a ZIP file using the BytesIO and zipfile libraries (Controller -> Model).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+*Download*: Once processing is complete, the API responds with the ZIP file containing the individual payslips. The front-end then triggers a download of the ZIP file.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Usage
+Although the primary function of the application is to generate payslips, it can also be utilized to split any multi-page document into separate PDF files.
 
-### `npm run eject`
+To access the application, visit:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contributing
+Contributions are welcome! Please feel free to open an issue for any suggestions or improvements and we can work together.
