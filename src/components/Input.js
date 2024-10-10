@@ -64,7 +64,7 @@ export default function Input() {
     formData.append('pdfFile', file);
 
     try {
-      const request = await fetch('http://127.0.0.1:5000/split', {
+      const request = await fetch('https://pdf-splitter-backend.onrender.com/split', {
         method: 'POST',
         body: formData
       })
