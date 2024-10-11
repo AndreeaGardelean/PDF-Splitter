@@ -55,7 +55,6 @@ export default function PdfPreviewer({ fileUrl }) {
 		} else {
 			selectedPages.add(selectedPage);
 		}
-		console.log(selectedPages);
 	}
 
 	/**
@@ -63,8 +62,32 @@ export default function PdfPreviewer({ fileUrl }) {
 	 * This function triggers the process of downloading only the pages
 	 * that have been selected by the user.
 	 */
-	function handleSelectedDownload() {
-		console.log('downloading selected pages');
+	async function handleSelectedDownload() {
+		// create a FormData object to hold the file
+		const formData = new FormData();
+		formData.append('pdfFile', fileUrl);
+		formData.append('selectedPages', JSON.stringify([...selectedPages]));
+
+		try {
+			const request = await fetch('http://127.0.0.1:5000/download', {
+				method: 'POST',
+				body: formData,
+			});
+
+			// get the response as a blob
+			const response = await request.blob();
+			const url = window.URL.createObjectURL(response);
+			const link = document.createElement('a');
+			document.body.appendChild(link);
+
+			link.style = 'display: none';
+			link.href = url;
+			link.download = `file.zip`;
+			link.click();
+			window.URL.revokeObjectURL(url);
+		} catch (e) {
+			console.error('Error during file upload split', e);
+		}
 	}
 
 	/**
@@ -79,7 +102,7 @@ export default function PdfPreviewer({ fileUrl }) {
 	return (
 		<div className="pdf-previewer-container">
 			<UtilitiesBar downloadHandler={handleSelectedDownload} deleteHandler={handleDeletePages} />
-			<Document file={fileUrl} onLoadSuccess={handleOnLoadSuccess}>
+			<Document file={URL.createObjectURL(fileUrl)} onLoadSuccess={handleOnLoadSuccess}>
 				{Array.from(new Array(pages), (_el, index) => (
 					<div className={'page-wrapper'} id={index + 1} key={`page-wrapper-${index + 1}`}>
 						<input

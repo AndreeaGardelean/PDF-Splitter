@@ -51,3 +51,40 @@ def splitPdf(file):
 
     zipBuffer.seek(0)
     return zipBuffer
+
+"""
+Generates a new PDF with selected pages from the input PDF file and compresses it into a ZIP archive. 
+The function processes the input PDF, extracts the specified pages, compiles them into a new PDF, and 
+returns the ZIP file containing this PDF.
+
+Parameters:
+    file: The input PDF file. It should be a file-like object that can be read by PyPDF2.
+    pages: A list of page numbers to be extracted from the input PDF and 
+                         added to the new PDF.
+                    
+Returns:
+    BytesIO: A BytesIO object containing the ZIP file with the newly generated PDF.
+
+"""
+def downloadSelected(file, pages):
+    inputPdf = PdfReader(file)
+    zipBuffer = BytesIO()
+
+    with zipfile.ZipFile(file=zipBuffer, mode="w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipArchive:
+        # iterate over each page of the pdf and adit to a pdf file
+        filename = f"selected-{file.filename}.pdf"
+        outputPdf = PdfWriter()
+
+        for page in pages:
+            currPage = inputPdf.pages[int(page) - 1]
+            outputPdf.add_page(currPage)
+
+        pdfBytes = BytesIO()
+        outputPdf.write(pdfBytes)
+        pdfBytes.seek(0)
+
+        # write the PDF to the in-memory zip file
+        zipArchive.writestr(filename, pdfBytes.read())
+
+    zipBuffer.seek(0)
+    return zipBuffer

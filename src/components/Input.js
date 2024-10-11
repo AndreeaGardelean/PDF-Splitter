@@ -32,7 +32,7 @@ export default function Input() {
 			setLabel(newFile.name);
 			setBtnContent('Replace');
 			setVisibleFilename('visible');
-			setFileUrl(URL.createObjectURL(newFile));
+			setFileUrl(newFile);
 			// splitPdf(newFile);
 		}
 	}
@@ -62,42 +62,6 @@ export default function Input() {
 		const zipName = `${dateFormat.day}-${dateFormat.month}-${dateFormat.year}`;
 
 		return zipName;
-	}
-
-	/**
-	 * Sends the uploaded file to the API for processing.
-	 * Receives a directory of split PDF files as a blob and triggers the download for the user.
-	 *
-	 * @param {File} file - The PDF file to be sent to the API.
-	 */
-	async function splitPdf(file) {
-		// create a FormData object to hold the file
-		const formData = new FormData();
-		formData.append('pdfFile', file);
-
-		try {
-			const request = await fetch('https://pdf-splitter-backend.onrender.com/split', {
-				method: 'POST',
-				body: formData,
-			});
-
-			// get the response as a blob
-			const response = await request.blob();
-			const url = window.URL.createObjectURL(response);
-			const link = document.createElement('a');
-			document.body.appendChild(link);
-
-			// download the received blob as a zip file
-			const zipName = getFormattedDate();
-
-			link.style = 'display: none';
-			link.href = url;
-			link.download = `Payslips-${zipName}.zip`;
-			link.click();
-			window.URL.revokeObjectURL(url);
-		} catch (e) {
-			console.error('Error during file upload split', e);
-		}
 	}
 
 	return (
