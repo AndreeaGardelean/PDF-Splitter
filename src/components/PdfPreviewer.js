@@ -21,6 +21,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
  */
 export default function PdfPreviewer({ fileUrl }) {
 	const [pages, setPages] = useState();
+	const selectedPages = new Set();
 
 	/**
 	 * Handles the successful loading of the PDF document.
@@ -37,16 +38,43 @@ export default function PdfPreviewer({ fileUrl }) {
 		return null;
 	}
 
+	/**
+	 * Handles checkbox selection for each page of the PDF.
+	 * This function adds the selected page to the `selectedPages` set if it is not already present,
+	 * or removes it from the set if it has been previously selected.
+	 *
+	 * @param {Event} e - The event object from the checkbox input.
+	 *                    The `id` of the checkbox corresponds to the page number.
+	 */
+	function handleCheckboxChange(e) {
+		const selectedPage = e.target.id;
+
+		if (selectedPages.has(selectedPage)) {
+			selectedPages.delete(selectedPage);
+		} else {
+			selectedPages.add(selectedPage);
+		}
+		console.log(selectedPages);
+	}
+
 	return (
 		<div className="pdf-previewer-container">
 			<Document file={fileUrl} onLoadSuccess={handleOnLoadSuccess}>
 				{Array.from(new Array(pages), (_el, index) => (
-					<div className={'page-wrapper'} id={index + 1}>
+					<div className={'page-wrapper'} id={index + 1} key={`page-wrapper-${index + 1}`}>
+						<input
+							className="page-checkbox"
+							type="checkbox"
+							onChange={handleCheckboxChange}
+							id={index + 1}
+							key={`checkbox-${index + 1}`}
+						/>
 						<Page
 							renderTextLayer={false}
 							renderAnnotationLayer={false}
 							className={'page'}
 							pageNumber={index + 1}
+							key={`page-${index + 1}`}
 						/>
 					</div>
 				))}

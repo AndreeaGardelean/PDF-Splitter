@@ -33,7 +33,7 @@ export default function Input() {
 			setBtnContent('Replace');
 			setVisibleFilename('visible');
 			setFileUrl(URL.createObjectURL(newFile));
-			splitPdf(newFile);
+			// splitPdf(newFile);
 		}
 	}
 
