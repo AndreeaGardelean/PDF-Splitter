@@ -1,0 +1,18 @@
+.utilities-bar {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	z-index: 2;
+	padding: 0.4rem;
+	width: 100%;
+	gap: 1.5rem;
+	right: 50%;
+	transform: translateX(50%);
+	background-color: rgba(255, 255, 255, 0.418);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+}
+
+.utilities-icon {
+	width: 1rem;
+}

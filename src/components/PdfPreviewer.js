@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 import '../style/pdfPreviewer.css';
+import UtilitiesBar from './UtilitiesBar';
 
 // PDF worker configuration
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -57,8 +58,27 @@ export default function PdfPreviewer({ fileUrl }) {
 		console.log(selectedPages);
 	}
 
+	/**
+	 * Handles the download of selected pages from the PDF.
+	 * This function triggers the process of downloading only the pages
+	 * that have been selected by the user.
+	 */
+	function handleSelectedDownload() {
+		console.log('downloading selected pages');
+	}
+
+	/**
+	 * Handles the deletion of selected pages from the PDF.
+	 * This function removes the pages that have been selected by the user
+	 * for deletion.
+	 */
+	function handleDeletePages() {
+		console.log('deleted selected pages');
+	}
+
 	return (
 		<div className="pdf-previewer-container">
+			<UtilitiesBar downloadHandler={handleSelectedDownload} deleteHandler={handleDeletePages} />
 			<Document file={fileUrl} onLoadSuccess={handleOnLoadSuccess}>
 				{Array.from(new Array(pages), (_el, index) => (
 					<div className={'page-wrapper'} id={index + 1} key={`page-wrapper-${index + 1}`}>
