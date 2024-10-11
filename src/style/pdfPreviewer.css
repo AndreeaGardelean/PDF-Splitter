@@ -1,0 +1,14 @@
+.pdf-previewer-container {
+	margin-top: 2rem;
+	overflow-y: scroll;
+	height: 237mm;
+	scrollbar-width: thin;
+	background-color: rgb(212, 212, 212);
+}
+
+.page-wrapper {
+	display: flex;
+	margin-top: 1rem;
+	gap: 1rem;
+	padding: 1rem 2rem;
+}

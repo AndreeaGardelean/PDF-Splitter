@@ -1,65 +1,68 @@
 .picker-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-  width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 2rem;
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
 }
 
 .picker {
-  outline: 2px rgb(189, 189, 189) dashed;
-  padding: 1rem;
-  cursor: pointer;
-  border-radius: 0.5rem;
-  min-height: 4rem;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+	outline: 2px rgb(189, 189, 189) dashed;
+	padding: 1rem;
+	cursor: pointer;
+	border-radius: 0.5rem;
+	min-height: 4rem;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
 }
 
 #file-upload {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
 }
 
 input {
-  display: none;
+	display: none;
 }
 
 .upload-btn {
-  display: flex;
-  align-items: row;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  background-color: white;
-  border-radius: 2rem;
-  border: 1px rgb(189, 189, 189) solid;
-  padding: 0 1rem;
+	display: flex;
+	align-items: row;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	background-color: white;
+	border-radius: 2rem;
+	border: 1px rgb(189, 189, 189) solid;
+	padding: 0 1rem;
 }
 
 #paperclip-icon {
-  height: 1.5rem;
-  margin-right: 0.5rem;
+	height: 1.5rem;
+	margin-right: 0.5rem;
 }
 
-#btn-text, #drag-drop-txt {
-  font-size: 1rem;
+#btn-text,
+#drag-drop-txt {
+	font-size: 1rem;
 }
 
 .filename {
-  background-color: #f7f8fa;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  display: none;
+	background-color: #f7f8fa;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0.5rem;
+	display: none;
 }
 
 .filename.visible {
-  display: flex;
+	display: flex;
 }
