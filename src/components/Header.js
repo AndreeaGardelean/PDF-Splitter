@@ -17,9 +17,8 @@ export default function Header() {
 				<p>
 					To use the application, upload a PDF file and preview its content. Then, select the pages
 					you want to either download or exclude from the original document. You can choose to
-					download only the selected pages or generate a new PDF that excludes them. For more
-					information see the
-					<br></br>
+					download only the selected pages or generate a new PDF that excludes them.
+					<br></br>For more information see the
 					<a href="https://github.com/AndreeaGardelean/pdf-editor"> application notes</a>.
 				</p>
 			</header>
