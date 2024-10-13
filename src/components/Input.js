@@ -46,24 +46,6 @@ export default function Input() {
 		};
 	}, [fileUrl]);
 
-	/**
-	 * Formats the current date as 'DD-MM-YYYY'.
-	 *
-	 * @returns {string} The formatted date string.
-	 */
-	function getFormattedDate() {
-		const date = new Date();
-		const dateFormat = {
-			day: String(date.getDate()).padStart(2, '0'),
-			month: String(date.getMonth() + 1).padStart(2, '0'),
-			year: date.getFullYear(),
-		};
-
-		const zipName = `${dateFormat.day}-${dateFormat.month}-${dateFormat.year}`;
-
-		return zipName;
-	}
-
 	return (
 		<div className="picker-container">
 			<div className="picker" onClick={filePicker}>
