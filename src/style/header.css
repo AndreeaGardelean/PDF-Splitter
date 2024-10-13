@@ -1,17 +1,17 @@
 body {
-  /* background-color: #e8e8e8; */
+	overflow-x: hidden;
 }
 
 .header-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+	display: flex;
+	justify-content: center;
+	width: 100%;
 }
 
 .header {
-  width: 50%;
+	width: 50%;
 }
 
 .greeting {
-  font-size: 1.5rem;
+	font-size: 1.5rem;
 }

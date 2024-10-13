@@ -69,7 +69,7 @@ export default function PdfPreviewer({ fileUrl }) {
 		formData.append('selectedPages', JSON.stringify([...selectedPages]));
 
 		try {
-			const request = await fetch('http://127.0.0.1:5000/download', {
+			const request = await fetch('https://pdf-splitter-backend.onrender.com/download', {
 				method: 'POST',
 				body: formData,
 			});
@@ -95,8 +95,31 @@ export default function PdfPreviewer({ fileUrl }) {
 	 * This function removes the pages that have been selected by the user
 	 * for deletion.
 	 */
-	function handleDeletePages() {
-		console.log('deleted selected pages');
+	async function handleDeletePages() {
+		const formData = new FormData();
+		formData.append('pdfFile', fileUrl);
+		formData.append('selectedPages', JSON.stringify([...selectedPages]));
+
+		try {
+			const request = await fetch('https://pdf-splitter-backend.onrender.com/delete', {
+				method: 'POST',
+				body: formData,
+			});
+
+			// get the response as a blob
+			const response = await request.blob();
+			const url = window.URL.createObjectURL(response);
+			const link = document.createElement('a');
+			document.body.appendChild(link);
+
+			link.style = 'display: none';
+			link.href = url;
+			link.download = `file.zip`;
+			link.click();
+			window.URL.revokeObjectURL(url);
+		} catch (e) {
+			console.error('Error during file upload split', e);
+		}
 	}
 
 	return (

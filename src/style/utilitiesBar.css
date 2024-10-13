@@ -1,5 +1,5 @@
 .utilities-bar {
-	position: fixed;
+	position: absolute;
 	display: flex;
 	justify-content: center;
 	z-index: 2;
