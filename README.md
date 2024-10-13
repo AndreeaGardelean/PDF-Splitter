@@ -1,36 +1,55 @@
-# PDF Splitter
+# PDF Editor
 
-*PDF-Splitter* is a web application designed for a small business I am working with to automate the generation of payslips. Currently, the business generates a single PDF file containing the payslips for all employees. This application allows to upload that single PDF file and split it into separate PDF files, representing each employee's payslip.
+**PDF Editor** is a user-friendly web application designed to help users modify existing PDFs by removing or selecting specific pages. It allows users to upload a PDF, preview its content, and either download selected pages or exclude specific pages from the final document.
 
 ## Features
-__Upload Single PDF__: Users can upload a multi-page PDF.
 
-__Automatic Splitting__: The application processes the uploaded PDF to create individual PDF files for each page, representing a single payslip.
+**Upload Single PDF**: Upload a multi-page PDF document for editing.
 
-__Downloadable ZIP File__: The individual PDF files are zipped and made available for download as a single ZIP file.
+**Preview PDF**: Preview the uploaded PDF directly in the application.
+
+**Select Pages**: Use checkboxes to select individual pages for inclusion or exclusion.
+
+**Delete Selected Pages**: Choose pages to exclude, and generate a new PDF without them.
+
+**Download selected pages**: Download only the selected pages as a new PDF file.
+
+**Downloadable ZIP File**: After processing, the edited PDF is packaged into a ZIP file for easy downloading.
 
 ## Technology Stack
-*Backend*: Flask Framework
 
-*Frontend*: React Library
+**Backend**: Python, Flask
 
-*PDF Processing*: PyPDF2
+**Frontend**: React, CSS
 
-*File Handling*: BytesIO, zipfile
+**PDF Processing**: PyPDF2
+
+**File Handling**: BytesIO, zipfile
 
 ## How It Works
-*File Upload*: The user uploads a PDF file via the front-end interface (View).
 
-*API Request*: Upon file upload, a POST request is sent to the Flask API containing the PDF file (View -> Controller).
+**File Upload**: Users upload a PDF file through the front-end interface.
 
-*PDF Processing*: The API call the processing function to process the PDF file using the PyPDF2 library, creating separate PDF files for each page. These files are stored in a ZIP file using the BytesIO and zipfile libraries (Controller -> Model).
+**File Preview**: The uploaded PDF file can be previewed on the screen.
 
-*Download*: Once processing is complete, the API responds with the ZIP file containing the individual payslips. The front-end then triggers a download of the ZIP file.
+**Page Selection**: Each page in the preview has a corresponding checkbox, allowing to select or deselect pages.
+
+**Download Options**:
+
+1. **Download Selected Pages**: Download a new PDF containing only the selected pages.
+
+2. **Delete Selected Pages**: Download a new PDF with the selected pages excluded from the original document.
+
+**API Request**: When a user clicks one of the action buttons (delete or download), the selected page data and the PDF are sent via a POST request to the Flask API.
+
+**PDF Processing**: The backend processes the PDF using PyPDF2 to either include or exclude the selected pages. The resulting PDF is then zipped using BytesIO and zipfile libraries.
+
+**Download**: Once processing is completed, the front-end triggers the download of the ZIP file containing the new PDF.
 
 ## Usage
-Although the primary function of the application is to generate payslips, it can also be utilized to split any multi-page document into separate PDF files.
 
-To access the application, visit:
+To try out the application, visit: https://pdf-editor-um3i.onrender.com/
 
 ## Contributing
-Contributions are welcome! Please feel free to open an issue for any suggestions or improvements and we can work together.
+
+Contributions are welcome! If you have any suggestions, bug reports, or improvements, feel free to open an issue or submit a pull request. Let's collaborate to make this project better!
