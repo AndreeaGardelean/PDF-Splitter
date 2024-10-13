@@ -19,7 +19,8 @@ export default function Header() {
 					you want to either download or exclude from the original document. You can choose to
 					download only the selected pages or generate a new PDF that excludes them. For more
 					information see the
-					<a href="https://github.com/AndreeaGardelean/pdf-editor">application notes</a>.
+					<br></br>
+					<a href="https://github.com/AndreeaGardelean/pdf-editor"> application notes</a>.
 				</p>
 			</header>
 		</div>
