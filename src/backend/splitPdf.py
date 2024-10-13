@@ -71,7 +71,7 @@ def downloadSelected(file, pages):
     zipBuffer = BytesIO()
 
     with zipfile.ZipFile(file=zipBuffer, mode="w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipArchive:
-        filename = f"selected-{file.filename}.pdf"
+        filename = f"selected-{file.filename}"
         outputPdf = PdfWriter()
 
         # iterate over each page and if is in the selected pages add it to the PDF
@@ -109,7 +109,7 @@ def deleteSelected(file, pages):
     totalPages = len(inputPdf.pages)
 
     with zipfile.ZipFile(file=zipBuffer, mode="w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipArchive:
-        filename = f"deleted-{file.filename}.pdf"
+        filename = f"deleted-{file.filename}"
         outputPdf = PdfWriter()
 
         # iterate over the PDF pages and add the un-selected pages to the new PDF
