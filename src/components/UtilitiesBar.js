@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import downloadIcon from '../icons/download.svg';
 import trashCanIcon from '../icons/trashCan.svg';
 import '../style/utilitiesBar.css';
@@ -13,9 +14,26 @@ import '../style/utilitiesBar.css';
  *
  * @returns {JSX.Element} The rendered toolbar with download and delete icons.
  */
-export default function UtilitiesBar({ downloadHandler, deleteHandler }) {
+export default function UtilitiesBar({ downloadHandler, deleteHandler, setStartPage, setEndPage}) {
+
+	function onPageStartChange(e) {
+		const value = e.target.value;
+		setStartPage(value);
+	}
+
+	function onPageEndChange(e) {
+		const value = e.target.value; 
+		setEndPage(value);
+	}
+
 	return (
 		<div className="utilities-bar">
+			<div className='page-range'>
+				<p className='range-label'>Page :</p>
+				<input className='range-input' id='start-page' type='number' onChange={onPageStartChange}></input>
+				-
+				<input className='range-input' id='end-page' type='number' onChange={onPageEndChange}></input>
+			</div>
 			<img
 				className="utilities-icon"
 				src={downloadIcon}

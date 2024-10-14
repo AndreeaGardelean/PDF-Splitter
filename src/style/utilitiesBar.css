@@ -17,3 +17,26 @@
 	width: 1rem;
 	cursor: pointer;
 }
+
+.page-range {
+	display: flex;
+	align-items: center;
+	justify-content:  left;
+	gap: 1rem;
+}
+
+.range-input {
+	padding: 0;
+	margin: 0;
+	width: 3rem;
+	height: 1.5rem;
+	outline: 1px black solid;
+	z-index: 2;
+	display: flex;
+	padding: 0;
+	margin: 0;
+}
+
+.range-label {
+	font-size: 1rem;
+}

@@ -5,11 +5,12 @@
 	scrollbar-width: thin;
 	background-color: rgb(212, 212, 212);
 	margin-bottom: 1rem;
+	max-width: 90%;
 }
 
 .page-wrapper {
 	display: flex;
-	margin-top: 1rem;
+	margin-top: 4rem;
 	gap: 1rem;
 	padding: 1rem 2rem;
 }
