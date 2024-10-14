@@ -128,13 +128,16 @@ export default function PdfPreviewer({ fileUrl }) {
 			<Document file={URL.createObjectURL(fileUrl)} onLoadSuccess={handleOnLoadSuccess}>
 				{Array.from(new Array(pages), (_el, index) => (
 					<div className={'page-wrapper'} id={index + 1} key={`page-wrapper-${index + 1}`}>
-						<input
-							className="page-checkbox"
-							type="checkbox"
-							onChange={handleCheckboxChange}
-							id={index + 1}
-							key={`checkbox-${index + 1}`}
-						/>
+						<div className='page-metadata'>
+							<input
+								className="page-checkbox"
+								type="checkbox"
+								onChange={handleCheckboxChange}
+								id={index + 1}
+								key={`checkbox-${index + 1}`}
+							/>
+							<p className='curr-page-number'>{index + 1}/{pages}</p>
+						</div>
 						<Page
 							renderTextLayer={false}
 							renderAnnotationLayer={false}
