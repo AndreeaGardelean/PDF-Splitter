@@ -4,126 +4,132 @@ import zipfile
 from io import BytesIO
 
 """
-Gets the current date and formats it from YYYY-MM-DD to DD-MM-YYYY.
+Creates an in-memory BytesIO buffer to hold a ZIP file.
 
 Returns:
-    str: The formatted date as a string in DD-MM-YYYY format.
+    BytesIO: A buffer to store the ZIP file in memory.
 """
-def getDate():
-    today = date.today()
-    return today.strftime('%d-%m-%Y')
+def createZipBuffer():
+    return BytesIO()
+
 
 """
-Splits a PDF file into individual pages, saves each page as a separate PDF file,
-and stores them in a newly created ZIP file in memory using zipfile and BytesIO. 
-The ZIP file is named with the prefix 'Payslips' followed by the current date in DD-MM-YYYY format.
+Writes a PDF file to an in-memory ZIP archive.
 
-Each new PDF file is named using the page number and the current date.
+Args:
+    zipArchive (ZipFile): The in-memory ZIP file object.
+    pdf_writer (PdfWriter): The PdfWriter object containing the PDF data.
+    filename (str): The name for the PDF file within the ZIP archive.
+"""
+def writePdfToZip(zipArchive, pdf_writer, filename):
+    pdfBytes = BytesIO()
+    pdf_writer.write(pdfBytes)
+    pdfBytes.seek(0)
+    zipArchive.writestr(filename, pdfBytes.read())
+
+"""
+Creates and returns a new PdfWriter object.
+
+Returns:
+    PdfWriter: A new PdfWriter instance.
+"""
+def createPdfWriter():
+    return PdfWriter()
+
+
+"""
+Splits a PDF into individual pages and stores each page as a separate PDF in a ZIP archive.
+
+Each page is saved with a filename in the format '{page-number}-{name}.pdf'. The ZIP archive 
+is stored in memory and returned as a BytesIO object.
 
 Args:
     file (BytesIO): The input PDF file to be split.
+    name (str): The suffix for the split PDF filenames.
 
 Returns:
-    BytesIO: A BytesIO object containing the ZIP file with individual PDF pages.
+    BytesIO: A buffer containing the ZIP file with individual PDFs for each page.
 """
-def splitPdf(file):
+def splitPdf(file, name):
     inputPdf = PdfReader(file)
     totalPages = len(inputPdf.pages)
-
-    zipBuffer = BytesIO()
-    todayDate = getDate()
+    zipBuffer = createZipBuffer()
 
     with zipfile.ZipFile(file=zipBuffer, mode="w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipArchive:
         # iterate over each page of the pdf and create a pdf for each
         for page in range(totalPages):
             currPage = inputPdf.pages[page]
-            filename = f"{page}-{todayDate}.pdf"
+            filename = f"{page}-{name}.pdf"
 
-            outputPdf = PdfWriter()
+            outputPdf = createPdfWriter()
             outputPdf.add_page(currPage)
 
-            pdfBytes = BytesIO()
-            outputPdf.write(pdfBytes)
-            pdfBytes.seek(0)
-
-            # write the PDF to the in-memory zip file
-            zipArchive.writestr(filename, pdfBytes.read())
+            writePdfToZip(zipArchive, outputPdf, filename)
 
     zipBuffer.seek(0)
     return zipBuffer
 
 """
-Generates a new PDF with selected pages from the input PDF file and compresses it into a ZIP archive. 
-The function processes the input PDF, extracts the specified pages, compiles them into a new PDF, and 
-returns the ZIP file containing this PDF.
+Generates a new PDF with selected pages from an input PDF and compresses it into a ZIP archive.
 
-Parameters:
-    file: The input PDF file. It should be a file-like object that can be read by PyPDF2.
-    pages: A list of page numbers to be extracted from the input PDF and 
-                         added to the new PDF.
-                    
+The function extracts the specified pages from the input PDF, compiles them into a new PDF,
+and stores it in a ZIP archive, which is returned as a BytesIO object.
+
+Args:
+    file (BytesIO): The input PDF file.
+    pages (list): A list of page numbers to include in the new PDF.
+    filename (str): The filename for the newly generated PDF inside the ZIP archive.
+
 Returns:
-    BytesIO: A BytesIO object containing the ZIP file with the newly generated PDF.
-
+    BytesIO: A buffer containing the ZIP file with the generated PDF.
 """
-def downloadSelected(file, pages):
+def downloadSelected(file, pages, filename):
     inputPdf = PdfReader(file)
-    zipBuffer = BytesIO()
+    zipBuffer = createZipBuffer()
 
     with zipfile.ZipFile(file=zipBuffer, mode="w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipArchive:
-        filename = f"selected-{file.filename}"
-        outputPdf = PdfWriter()
+        outputPdf = createPdfWriter()
 
         # iterate over each page and if is in the selected pages add it to the PDF
         for page in pages:
             currPage = inputPdf.pages[int(page) - 1]
             outputPdf.add_page(currPage)
 
-        pdfBytes = BytesIO()
-        outputPdf.write(pdfBytes)
-        pdfBytes.seek(0)
-
-        # write the PDF to the in-memory zip file
-        zipArchive.writestr(filename, pdfBytes.read())
+        writePdfToZip(zipArchive, outputPdf, filename)
 
     zipBuffer.seek(0)
     return zipBuffer
 
 """
-Generates a new PDF containing only the non-selected pages from the input PDF file and compresses it into a ZIP archive. 
-The function processes the input PDF, extracts the un-specified pages, compiles them into a new PDF, and 
-returns the ZIP file containing this PDF.
+Generates a new PDF with pages that are NOT selected and compresses it into a ZIP archive.
 
-Parameters:
-    file: The input PDF file. It should be a file-like object that can be read by PyPDF2.
-    pages: A list of page numbers to be removed from the input PDF.
-                    
+The function removes the specified pages from the input PDF, compiles the remaining pages into 
+a new PDF, and stores it in a ZIP archive, which is returned as a BytesIO object.
+
+Args:
+    file (BytesIO): The input PDF file.
+    pages (list): A list of page numbers to remove from the new PDF.
+    filename (str): The filename for the newly generated PDF inside the ZIP archive.
+
 Returns:
-    BytesIO: A BytesIO object containing the ZIP file with the newly generated PDF.
-
+    BytesIO: A buffer containing the ZIP file with the generated PDF.
 """
-def deleteSelected(file, pages):
+def deleteSelected(file, pages, filename):
     inputPdf = PdfReader(file)
-    zipBuffer = BytesIO()
+    zipBuffer = createZipBuffer()
     deletePages = set(pages)
     totalPages = len(inputPdf.pages)
 
     with zipfile.ZipFile(file=zipBuffer, mode="w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipArchive:
-        filename = f"deleted-{file.filename}"
         outputPdf = PdfWriter()
 
         # iterate over the PDF pages and add the un-selected pages to the new PDF
         for page in range(totalPages):
-            if str(page + 1) not in deletePages:
+            if (page + 1) not in deletePages:
                 currPage = inputPdf.pages[int(page)]
                 outputPdf.add_page(currPage)
 
-        pdfBytes = BytesIO()
-        outputPdf.write(pdfBytes)
-        pdfBytes.seek(0)
-
-        # write the PDF to the in-memory zip file
-        zipArchive.writestr(filename, pdfBytes.read())
+        writePdfToZip(zipArchive, outputPdf, filename)
 
     zipBuffer.seek(0)
     return zipBuffer

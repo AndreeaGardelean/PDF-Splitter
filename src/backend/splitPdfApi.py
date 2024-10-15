@@ -23,18 +23,16 @@ POST /download:
 @app.route('/download', methods=["POST"])
 def downloadSelectedPages():
     if request.method == "POST":
-        if 'pdfFile' not in request.files:
+        if ('pdfFile' not in request.files) or file.filename == '':
             return jsonify({'error': 'No file attached'})
 
         file = request.files['pdfFile']
-        pages = json.loads(request.form['selectedPages'])
+        pages = json.loads(request.form['selectedPages'])        
+        name = json.loads(request.form['fileName'])
 
-        if file.filename == '':
-            return jsonify({'error': 'No file attached'})
+        result = downloadSelected(file, pages, name)
 
-        result = downloadSelected(file, pages)
-
-        return send_file(result, as_attachment=True, download_name=f'payslips.zip', mimetype='application/zip')
+        return send_file(result, as_attachment=True, download_name=f'{name}.zip', mimetype='application/zip')
 
 """
 API for transforming an uploaded PDF file to a new PDF file that contains only the non-selected pages, 
@@ -50,18 +48,16 @@ POST /delete:
 @app.route('/delete', methods=["POST"])
 def deleteSelectedPages():
     if request.method == "POST":
-        if 'pdfFile' not in request.files:
+        if ('pdfFile' not in request.files) or file.filename == '':
             return jsonify({'error': 'No file attached'})
 
         file = request.files['pdfFile']
-        pages = json.loads(request.form['selectedPages'])
+        pages = json.loads(request.form['selectedPages'])        
+        name = json.loads(request.form['fileName'])
 
-        if file.filename == '':
-            return jsonify({'error': 'No file attached'})
+        result = deleteSelected(file, pages, name)
 
-        result = deleteSelected(file, pages)
-
-        return send_file(result, as_attachment=True, download_name=f'payslips.zip', mimetype='application/zip')
+        return send_file(result, as_attachment=True, download_name=f'{name}.zip', mimetype='application/zip')
     
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
