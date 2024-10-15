@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../style/input.css';
 import paperclip from '../icons/paperclip.svg';
-import PdfPreviewer from './PdfPreviewer';
+import PdfEditor from './PdfEditor';
 
 /**
  * Custom file picker for uploading PDF files.
@@ -33,7 +33,6 @@ export default function Input() {
 			setBtnContent('Replace');
 			setVisibleFilename('visible');
 			setFileUrl(newFile);
-			// splitPdf(newFile);
 		}
 	}
 
@@ -50,7 +49,7 @@ export default function Input() {
 		<div className="picker-container">
 			<div className="picker" onClick={filePicker}>
 				<div className={`filename ${visibleFilename}`}>
-					<p>{label}</p>
+					<p id='filename'>{label}</p>
 				</div>
 
 				<div id="file-upload">
@@ -64,7 +63,7 @@ export default function Input() {
 				</div>
 			</div>
 			<input type="file" id="pdfFile" name="pdfFile" accept=".pdf" onChange={handleFileUpload} />
-			<PdfPreviewer fileUrl={fileUrl} />
+			<PdfEditor fileUrl={fileUrl} />
 		</div>
 	);
 }
