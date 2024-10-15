@@ -20,6 +20,9 @@ export default function Header() {
 					download only the selected pages or generate a new PDF that excludes them.
 					<br></br>For more information see the
 					<a href="https://github.com/AndreeaGardelean/pdf-editor"> application notes</a>.
+
+					<br></br><br></br>
+					Note: Entering a page range will replace any manually selected pages.
 				</p>
 			</header>
 		</div>
