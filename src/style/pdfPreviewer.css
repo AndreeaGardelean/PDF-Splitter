@@ -5,7 +5,8 @@
 	scrollbar-width: thin;
 	background-color: rgb(212, 212, 212);
 	margin-bottom: 1rem;
-	max-width: 90%;
+	max-width: 80vw;
+	overflow: auto;
 }
 
 .page-wrapper {
