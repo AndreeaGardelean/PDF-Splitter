@@ -11,10 +11,11 @@
 	background-color: rgba(255, 255, 255, 0.418);
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
+	flex: 1;
 }
 
 .utilities-icon {
-	width: 1rem;
+	width: 1.2rem;
 	cursor: pointer;
 }
 
@@ -39,4 +40,19 @@
 
 .range-label {
 	font-size: 1rem;
+}
+
+.document-name {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+}
+
+#document-name-input {
+	display: flex;
+	width: 10rem;
+	height: 1.5rem;
+	border-radius: 0.7rem;
+	border: 1px black solid;
 }
