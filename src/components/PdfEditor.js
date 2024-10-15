@@ -130,7 +130,7 @@ export default function PdfEditor({ fileUrl, filename }) {
 		// try to send data to the API and retrieve the response
 		try {
 			console.log('CONNECTING TO THE API')
-			const request = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
+			const request = await fetch(`https://pdf-splitter-backend.onrender.com/${endpoint}`, {
 				method: 'POST',
 				body: formData,
 			});
