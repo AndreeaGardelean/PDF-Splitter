@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import downloadIcon from '../icons/download.svg';
 import trashCanIcon from '../icons/trashCan.svg';
 import '../style/utilitiesBar.css';
+import Icon from './Icon';
 
 /**
  * UtilitiesBar component renders a toolbar with utility icons for downloading
@@ -34,18 +35,8 @@ export default function UtilitiesBar({ downloadHandler, deleteHandler, setStartP
 				-
 				<input className='range-input' id='end-page' type='number' onChange={onPageEndChange}></input>
 			</div>
-			<img
-				className="utilities-icon"
-				src={downloadIcon}
-				alt="Download Icon"
-				onClick={downloadHandler}
-			/>
-			<img
-				className="utilities-icon"
-				src={trashCanIcon}
-				alt="Trash Can Icon"
-				onClick={deleteHandler}
-			/>
+			<Icon className={"utilities-icon"} src={downloadIcon} altText={"Download Icon"} onClickHandler={downloadHandler} />
+			<Icon className={"utilities-icon"} src={trashCanIcon} altText={"Trash Can Icon"} onClickHandler={deleteHandler} />
 		</div>
 	);
 }
