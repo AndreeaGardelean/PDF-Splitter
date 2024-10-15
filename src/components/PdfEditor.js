@@ -30,11 +30,11 @@ export default function PdfEditor({ fileUrl, filename }) {
   * Retrieves the page range from the input fields and updates the selected pages.
   * If a valid range is provided, it overrides the manually selected pages.
   */
-  function getPageRange() {
-		const startRangeVal = startPageRef.current.value;
-		const endRangeVal = endPageRef.current.value;
+	function getPageRange() {
+		const startRangeVal = parseInt(startPageRef.current.value);
+		const endRangeVal = parseInt(endPageRef.current.value);
 
-		if(!startRangeVal || endRangeVal) {
+		if (!startRangeVal || !endRangeVal) {
 			return;
 		}
 
@@ -42,10 +42,9 @@ export default function PdfEditor({ fileUrl, filename }) {
 		endRange = endRangeVal || 0;
 
 		selectedPages = new Set();
-
     for (let i = startRange; i <= endRange; i++) {
       selectedPages.add(parseInt(i));
-    }
+		}
 	}
 
 	/**
@@ -84,6 +83,7 @@ export default function PdfEditor({ fileUrl, filename }) {
 	 * @returns {FormData} The FormData object with the appended values.
 	*/
 	function getFormData() {
+		console.log('GETTING FORM DATA')
     getPageRange();
     getDocumentTitle();
     
@@ -129,15 +129,12 @@ export default function PdfEditor({ fileUrl, filename }) {
 
 		// try to send data to the API and retrieve the response
 		try {
-			console.log('CONNECTING TO THE API')
-			const request = await fetch(`https://pdf-splitter-backend.onrender.com/${endpoint}`, {
+			const request = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
 				method: 'POST',
 				body: formData,
 			});
 			// get the response as a blob
-			console.log('MADE THE REQUEST, GETTING THE REPSONSE')
 			const response = await request.blob();
-			console.log('RESPONSE', response)
 
 			// return the response to the user by downloading a zip file with the file contents
 			downloadFile(response);

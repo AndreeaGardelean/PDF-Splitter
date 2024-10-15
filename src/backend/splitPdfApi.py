@@ -23,12 +23,17 @@ POST /download:
 @app.route('/download', methods=["POST"])
 def downloadSelectedPages():
     if request.method == "POST":
-        if ('pdfFile' not in request.files) or file.filename == '':
+        if 'pdfFile' not in request.files:
             return jsonify({'error': 'No file attached'})
 
         file = request.files['pdfFile']
         pages = json.loads(request.form['selectedPages'])        
         name = json.loads(request.form['fileName'])
+
+        print(pages, name)
+
+        if file.filename == '':
+            return jsonify({'error': 'No file attached'})
 
         result = downloadSelected(file, pages, name)
 
@@ -48,12 +53,15 @@ POST /delete:
 @app.route('/delete', methods=["POST"])
 def deleteSelectedPages():
     if request.method == "POST":
-        if ('pdfFile' not in request.files) or file.filename == '':
+        if 'pdfFile' not in request.files:
             return jsonify({'error': 'No file attached'})
 
         file = request.files['pdfFile']
         pages = json.loads(request.form['selectedPages'])        
         name = json.loads(request.form['fileName'])
+
+        if file.filename == '':
+            return jsonify({'error': 'No file attached'})
 
         result = deleteSelected(file, pages, name)
 
