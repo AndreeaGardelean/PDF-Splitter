@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { Document, Page } from 'react-pdf';
-import { pdfjs } from 'react-pdf';
+import { useRef } from 'react';
 import '../style/pdfEditor.css';
 import UtilitiesBar from './UtilitiesBar';
 import PdfPreviewer from './PdfPreviewer';
@@ -10,41 +8,57 @@ import PdfPreviewer from './PdfPreviewer';
  *
  * @param {Object} props - Component properties.
  * @param {string} props.fileUrl - The URL of the PDF file to be rendered.
+ * @param {string} props.filename - The default name of the PDF file.
  *
- * @returns {JSX.Element|null} The rendered PDF document or null if no fileUrl is provided.
+ * @returns {JSX.Element|null} The rendered PDF editor or null if no fileUrl is provided.
  */
-export default function PdfEditor({ fileUrl }) {
-  // const [fileUrl, setFileUrl] = useState(null);
+export default function PdfEditor({ fileUrl, filename }) {
+	const startPageRef = useRef();
+  const endPageRef = useRef();
+  const documentNameInputRef = useRef();
+	
+	var selectedPages = new Set();
+  var startRange = 0;
+	var endRange = 0;
+	var name = filename;
 
   if (!fileUrl) {
     return null;
   }
 
-	const selectedPages = new Set();
-  var filename = '';
-  var startRange = 0;
-  var endRange = 0;
-
+	/**
+  * Retrieves the page range from the input fields and updates the selected pages.
+  * If a valid range is provided, it overrides the manually selected pages.
+  */
   function getPageRange() {
-    const startRangeVal = document.getElementById('start-page').value;
-    const endRangeVal = document.getElementById('end-page').value;
+		const startRangeVal = startPageRef.current.value;
+		const endRangeVal = endPageRef.current.value;
+
+		if(!startRangeVal || endRangeVal) {
+			return;
+		}
 
     startRange = startRangeVal || 0;
-    endRange = endRangeVal || 0;
+		endRange = endRangeVal || 0;
+
+		selectedPages = new Set();
 
     for (let i = startRange; i <= endRange; i++) {
       selectedPages.add(parseInt(i));
     }
 	}
 
+	/**
+  * Retrieves the document title from the input field. 
+  * If no custom title is provided, it uses the default filename.
+  */
 	function getDocumentTitle() {
-		const userDocName = document.getElementById('document-name-input').value;
-		if (!userDocName) {
-      filename = document.getElementById('filename').value;
-      console.log('FILENAME ON UPLOAD', filename);
-    } else {
-      filename = userDocName;
-    }
+		const userDocName = documentNameInputRef.current.value;
+		if (userDocName) {
+			name = userDocName + '.pdf';
+		} else {
+			name = filename;
+		}
   }
   
   	/**
@@ -76,7 +90,7 @@ export default function PdfEditor({ fileUrl }) {
 		const formData = new FormData();
 		formData.append('pdfFile', fileUrl);
 		formData.append('selectedPages', JSON.stringify([...selectedPages]));
-		formData.append('fileName', JSON.stringify(filename));
+		formData.append('fileName', JSON.stringify(name));
 
 		return formData;
 	}
@@ -110,16 +124,20 @@ export default function PdfEditor({ fileUrl }) {
 	 */
 	async function handleFileEdit(endpoint) {
 		// create a FormData object to hold the file
-    const formData = getFormData();
+		const formData = getFormData();
+		console.log('FILE ', endpoint, 'clicked!!!!', selectedPages)
 
 		// try to send data to the API and retrieve the response
 		try {
-			const request = await fetch(`https://pdf-splitter-backend.onrender.com/${endpoint}`, {
+			console.log('CONNECTING TO THE API')
+			const request = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
 				method: 'POST',
 				body: formData,
 			});
 			// get the response as a blob
+			console.log('MADE THE REQUEST, GETTING THE REPSONSE')
 			const response = await request.blob();
+			console.log('RESPONSE', response)
 
 			// return the response to the user by downloading a zip file with the file contents
 			downloadFile(response);
@@ -130,7 +148,7 @@ export default function PdfEditor({ fileUrl }) {
 
 	return (
 		<div className="pdf-editor-container">
-			<UtilitiesBar downloadHandler={() => handleFileEdit('download')} deleteHandler={() => handleFileEdit('delete')} />
+			<UtilitiesBar downloadHandler={() => handleFileEdit('download')} deleteHandler={() => handleFileEdit('delete')} startRef={startPageRef} endRef={endPageRef} fileRef={documentNameInputRef} />
 			<PdfPreviewer fileUrl={fileUrl} handleCheckboxChange={handleCheckboxChange} />
 		</div>
 	);
