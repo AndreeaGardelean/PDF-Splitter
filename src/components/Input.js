@@ -63,7 +63,7 @@ export default function Input() {
 				</div>
 			</div>
 			<input type="file" id="pdfFile" name="pdfFile" accept=".pdf" onChange={handleFileUpload} />
-			<PdfEditor fileUrl={fileUrl} />
+			<PdfEditor fileUrl={fileUrl} filename={label} />
 		</div>
 	);
 }
